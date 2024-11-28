@@ -22,4 +22,4 @@ Sample git command `git checkout -b"name-of-new-branch"`
 
 **Important please take note!**
 
-Please ensure that credentials, such as API keys and passwords are not committed to the repository and use `.env` (or equivalent) files to store the relevant values. If you're unsure how to manage this securely contact [Nick](mailto:npaustian@slv.vic.gov.au), [Susannah](mailto:sbourke@slv.vic.gov.au) or [Sotirios](mailto:salpanis@slv.vic.gov.au) who will do their best to help!
+Please ensure that credentials, such as API keys and passwords are not committed to the repository and use `.env` (or equivalent) files to store the relevant values. If you're unsure how to manage this securely contact one of the hack day organisers, who will do their best to help!
