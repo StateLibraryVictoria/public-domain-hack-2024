@@ -1,2 +1,2 @@
-*.mrc binary
+*.mrc linguist-detectable=false
 *.csv text
