@@ -4,7 +4,7 @@
 
 ### [challenge-1-Manuscripts-Creators-2024-11-29.csv](./challenge-1-Manuscripts-Creators-2024-11-29.csv)
 
-An export of metadata from the catalogue covering all published Manuscript records. Data was extracted using [Pymarc](https://pymarc.readthedocs.io/en/latest/) and a table generated. Where multiple values were present for a single field they have been concatenated using `;`. 
+An export of metadata from the catalogue covering all published Manuscript records. Data was extracted using [Pymarc](https://pymarc.readthedocs.io/en/latest/) and a table generated. Where multiple values were present for a single field they have been concatenated using `;`.
 
 **Rows** - 14,703
 
@@ -40,6 +40,7 @@ Can be worked with in Python using [Pymarc](https://pymarc.readthedocs.io/en/lat
 An export of selected metadata from Alma Analytics for all records in the Pictures Collection, identified by filtering to publicly available records with physical holdings matching `LTAD;PCCARTOON;PCEPHEMERA;PCINF;PCLT;PCLTA;PCLTAEF;PCLTAF;PCLTBOX;PCLTCM;PCLTEFBOX;PCLTFBN;PCLTFBOX;PCLTFURN;PCLTGN;PCLTILLUM;PCLTLS;PCLTM;PCLTPP;PCLTRE;PCLTS;PCLTSL;PCLTST;PCLTTEX;PCLTW;PCLTWEF;PCMCA;PCOVAL;PCPCA;PCPOSTER;PCSILK;PCV;PIC;PICPA;YLTAD;YLTTEX;YPCLT;YPCLTAEF;YPCLTS;YPCPOSTER;YPLTRE`. 
 
 The following filters were applied:
+
 - Remove records with no author recorded
 - Remove MANY records
 
@@ -64,9 +65,10 @@ The following filters were applied:
 | Location Code | Holdings 852 | Location of the physial item. |
 
 More detail about the meaning of the headings can be found through the Alma Analytics documentation [Physical Items documentation](https://knowledge.exlibrisgroup.com/Alma/Product_Documentation/010Alma_Online_Help_(English)/080Analytics/Alma_Analytics_Subject_Areas/Physical_Items). MARC fields can be checked against [MARC 21 format for bibliographic data](https://www.loc.gov/marc/bibliographic/).
-## Challenge 4
 
-### [challenge-4-Image-Pool-2024-11-27](./challenge-4-Image-Pool-2024-11-27.csv)
+## Challenge 3
+
+### [challenge-3-Image-Pool-2024-11-27](./challenge-3-Image-Pool-2024-11-27.csv)
 
 An export from Rosetta that contains identifiers and metadata for the images that are made available via the "Copyright-free image pool" [https://www.slv.vic.gov.au/images](https://www.slv.vic.gov.au/images).
 
