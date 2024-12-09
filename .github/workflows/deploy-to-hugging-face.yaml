@@ -15,6 +15,7 @@ jobs:
           fetch-depth: 0
           lfs: true
       - name: Push to hub
+        working-directory: ./hack-projects/ch4-data-viz
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/sotirios-slv/scrambled-snake ch4-data-viz 
+        run: git push https://HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/sotirios-slv/scrambled-snake
