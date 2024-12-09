@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 import requests
-import urllib
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -48,9 +47,9 @@ def palette(clusters):
     return palette
 
 
-def get_palette_clusters(img):
+def get_palette_clusters(img, no_of_clusters=5):
 
-    cluster = KMeans(n_clusters=5)
+    cluster = KMeans(n_clusters=no_of_clusters)
     cluster.fit(img.reshape(-1, 3))
 
     clusters = cluster.fit(img.reshape(-1, 3))
