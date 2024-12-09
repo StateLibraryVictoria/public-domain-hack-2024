@@ -20,14 +20,26 @@
 #           HF_TOKEN: ${{ secrets.HF_TOKEN }}
 #         run: git push https://HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/sotirios-slv/scrambled-snake
 
-uses: nateraw/huggingface-sync-action@v0.0.5
-with:
-  github_repo_id: StateLibraryVictoria/public-domain-hack-2024
+name: Sync with Hugging Face Hub
 
-  huggingface_repo_id: sotirios-slv/scrambled-snake
+on:
+  push:
+    branches: [ch4-data-viz]
+    paths:
+      - .github/workflows/deploy-to-hugging-face.yaml
+      - hack-projects/ch4-data-viz/**
 
-  hf_token: ${{ secrets.HF_TOKEN }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Sync with Hugging Face
 
-  repo_type: 'space'
-  space_sdk: 'streamlit'
-  subdirectory: ./hack-projects/ch4-data-viz
+      uses: nateraw/huggingface-sync-action@v0.0.5
+      with:
+        github_repo_id: StateLibraryVictoria/public-domain-hack-2024
+        huggingface_repo_id: sotirios-slv/scrambled-snake
+        hf_token: ${{ secrets.HF_TOKEN }}
+        repo_type: space
+        space_sdk: streamlit
+        subdirectory: ./hack-projects/ch4-data-viz
