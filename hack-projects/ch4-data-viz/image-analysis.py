@@ -73,4 +73,6 @@ clt_1 = get_palette_clusters(img)
 
 img_palette = palette(clt_1)
 
+print(img_palette)
+
 show_img_compare(img, img_palette)
