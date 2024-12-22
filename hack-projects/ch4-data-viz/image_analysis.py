@@ -9,21 +9,29 @@ from sklearn.cluster import KMeans
 
 
 def get_iiif_image_urls(ie_pid: str):
+    try:
 
-    manifest_url = f"https://rosetta.slv.vic.gov.au/delivery/iiif/presentation/2.1/{ie_pid}/manifest"
-    print(manifest_url)
-    session = requests.Session()
+        manifest_url = f"https://rosetta.slv.vic.gov.au/delivery/iiif/presentation/2.1/{ie_pid}/manifest"
 
-    response = session.get(manifest_url)
+        session = requests.Session()
 
-    manifest = response.json()
+        response = session.get(manifest_url)
 
-    image_ids = [
-        canvas["images"][0]["resource"]["service"]["@id"]
-        for canvas in manifest["sequences"][0]["canvases"]
-    ]
+        manifest = response.json()
 
-    image_urls = [f"{image_id}/full/600,/0/default.jpg" for image_id in image_ids]
+        image_ids = [
+            canvas["images"][0]["resource"]["service"]["@id"]
+            for canvas in manifest["sequences"][0]["canvases"]
+        ]
+
+        image_urls = [f"{image_id}/full/600,/0/default.jpg" for image_id in image_ids]
+
+    except Exception as e:
+
+        print(f"Could not get iiif image URLs for {ie_pid}, here's the error {e}")
+        print(f"Manifest url {manifest_url}")
+
+        image_urls = []
 
     return image_urls
 
@@ -57,21 +65,43 @@ def get_palette_clusters(img, no_of_clusters=5):
     return clusters
 
 
-image_urls = get_iiif_image_urls("IE1267294")
+def get_colour_palette_iiif_image(ie_pid: str, dim=(500, 300)):
 
-response = requests.get(image_urls[0])
+    # get iiif image urls
+    image_urls = get_iiif_image_urls(ie_pid)
+    if not image_urls:
+        return False
+    response = requests.get(image_urls[0])
 
-img = cv.imdecode(np.frombuffer(response.content, np.uint8), -1)
-img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    # decode image
+    img = cv.imdecode(np.frombuffer(response.content, np.uint8), -1)
+    img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 
-dim = (500, 300)
-img = cv.resize(img, dim, interpolation=cv.INTER_AREA)
+    img = cv.resize(img, dim, interpolation=cv.INTER_AREA)
 
-clt_1 = get_palette_clusters(img)
+    palette_clusters = get_palette_clusters(img)
+    img_palette = palette(palette_clusters)
+
+    return img_palette
 
 
-img_palette = palette(clt_1)
+def get_palette_rgbs(ie_pid: str):
+    print("Getting palette RGBs for", ie_pid)
 
-print(img_palette)
+    img_palette = get_colour_palette_iiif_image(ie_pid)
 
-show_img_compare(img, img_palette)
+    if isinstance(img_palette, bool):
+
+        return ""
+
+    palette_rgbs = np.unique(img_palette[0], axis=0)
+
+    palette_rgbs = palette_rgbs.tolist()
+
+    return palette_rgbs
+
+
+# print(get_palette_rgbs("IE1391238"))
+# img, palette = get_colour_palette_iiif_image("IE1423319")
+# img, palette = get_colour_palette_iiif_image("IE1391238")
+# show_img_compare(img, palette)
