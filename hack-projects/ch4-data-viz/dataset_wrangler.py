@@ -24,25 +24,9 @@ def clean_df(columns=None, dataset=dataset, subset=[]):
     return df
 
 
-def parse_rgb(df):
+def create_rgba(df, palette_col):
 
-    palette_col = df["pal_5"]
-
-    palette_col = palette_col.strip("[")
-    palette_col = palette_col.strip("]")
-
-    (
-        r,
-        g,
-        b,
-    ) = palette_col.split(",")
-
-    return r, g, b
-
-
-def create_rgba(df):
-
-    rgba = f'rgb({df["red"]}, {df["green"]}, {df["blue"]})'
+    rgba = f'rgb({df[f"red_{palette_col}"]}, {df[f"green_{palette_col}"]}, {df[f"blue_{palette_col}"]})'
 
     return rgba
 
@@ -67,41 +51,62 @@ def get_square_coords(df):
     return coords
 
 
-def create_grid():
+def create_grid(palette_columns=["pal_1", "pal_3", "pal_5"]):
 
-    df = clean_df(subset=["pal_5"])
+    markers = {
+        "pal_1": "circle",
+        "pal_3": "square_pin",
+        "pal_5": "triangle",
+    }
+
+    df = clean_df(subset=palette_columns)
     coords = get_square_coords(df)
-
-    df[["red", "green", "blue"]] = df.apply(parse_rgb, result_type="expand", axis=1)
-
-    df["rgba"] = df.apply(create_rgba, axis=1)
-
-    rgba_list = df["rgba"].values.tolist()
-
-    df["red"] = df["red"].astype("int64")
-    df["green"] = df["green"].astype("int64")
-    df["blue"] = df["blue"].astype("int64")
 
     x = [coord[0] for coord in coords]
     y = [coord[1] for coord in coords]
 
-    # TOOLS = "hover,crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom,undo,redo,reset,tap,save,box_select,poly_select,lasso_select,examine,help"
     TOOLS = "hover,crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom,undo,redo,reset"
 
     p = figure(tools=TOOLS)
 
-    p.circle(
-        x=x,
-        y=y,
-        radius=0.4,
-        color=rgba_list,
-        alpha=0.5,
-        hover_alpha=0.9,
-        hover_line_color="white",
-    )
+    radius = 10
+    alpha = 0.3
+    hover_alpha = 0.6
+
+    for col in palette_columns:
+
+        df[col] = df[col].str.strip("[")
+        df[col] = df[col].str.strip("]")
+
+        df[[f"red_{col}", f"green_{col}", f"blue_{col}"]] = df[col].str.split(
+            ",", expand=True
+        )
+
+        df[f"rgba_{col}"] = (
+            "rgb("
+            + df[f"red_{col}"]
+            + ","
+            + df[f"green_{col}"]
+            + ","
+            + df[f"blue_{col}"]
+            + ")"
+        )
+
+        rgba_list = df[f"rgba_{col}"].values.tolist()
+
+        p.scatter(
+            x=x,
+            y=y,
+            size=radius,
+            color=rgba_list,
+            alpha=alpha,
+            hover_alpha=hover_alpha,
+            hover_line_color="white",
+            marker=markers[col],
+        )
 
     return p
 
 
-p = create_grid()
-show(p)
+# p = create_grid(palette_columns=["pal_1"])
+# show(p)
