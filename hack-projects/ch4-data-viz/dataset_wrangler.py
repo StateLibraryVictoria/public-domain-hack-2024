@@ -90,6 +90,18 @@ def create_grid():
 
     p = figure(tools=TOOLS)
 
-    p.circle(x=x, y=y, radius=0.3, color=rgba_list)
+    p.circle(
+        x=x,
+        y=y,
+        radius=0.4,
+        color=rgba_list,
+        alpha=0.5,
+        hover_alpha=0.9,
+        hover_line_color="white",
+    )
 
     return p
+
+
+p = create_grid()
+show(p)

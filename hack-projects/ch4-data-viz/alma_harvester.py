@@ -5,7 +5,7 @@ from xml.etree import ElementTree as ET
 
 def get_alma_information(endpoint: str, params={}):
     alma_url = "https://api-ap.hosted.exlibrisgroup.com"
-    api_key = os.environ.get("ALMA_API_KEY", "l8xx313574e38e5c48f2af9ed8c3fa017926")
+    api_key = os.environ.get("ALMA_API_KEY")
 
     print("Key", api_key)
 
