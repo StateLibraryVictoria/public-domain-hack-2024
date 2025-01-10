@@ -2,6 +2,7 @@ import cv2 as cv
 import numpy as np
 import requests
 from pathlib import Path
+import pandas as pd
 
 import matplotlib.pyplot as plt
 
@@ -34,6 +35,9 @@ def get_iiif_image_urls(ie_pid: str):
         image_urls = []
 
     return image_urls
+
+
+# print(get_iiif_image_urls("IE1258179"))
 
 
 def show_img_compare(img_1, img_2):
