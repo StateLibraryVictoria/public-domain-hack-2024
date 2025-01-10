@@ -18,7 +18,8 @@ random_selection["iiif_url"] = random_selection["IE PID"].apply(
     lambda x: image_analysis.get_iiif_image_urls(x)
 )
 
-print(random_selection)
+st.image(random_selection["iiif_url"].sample())
+
 st.dataframe(random_selection)
 
 p = dataset_wrangler.create_grid(df)
