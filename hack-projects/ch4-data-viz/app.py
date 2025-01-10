@@ -21,7 +21,18 @@ random_selection["iiif_url"] = random_selection["IE PID"].apply(
 for img in random_selection["iiif_url"].values.tolist():
     st.image(img)
 
-st.dataframe(random_selection)
+
+df["created_year"] = df["Created - W 3 CDTF (DCTERMS)"].apply(
+    lambda x: dataset_wrangler.split_created_year(x)[0]
+)
+
+values = st.slider(
+    "Select a year range: ",
+    df["created_year"].min(),
+    df["created_year"].max()(df["created_year"].min(), df["created_year"].max()),
+)
+
+# print(df["created_year"])
 
 p = dataset_wrangler.create_grid(df)
 

@@ -6,6 +6,19 @@ from bokeh.plotting import figure
 from bokeh.models import CustomJS
 
 
+def split_created_year(created_year):
+
+    split = created_year.split("/")
+    start_date = split[0]
+
+    if len(split) > 1:
+        end_date = split[-1]
+    else:
+        end_date = start_date
+
+    return start_date, end_date
+
+
 def display_event() -> CustomJS:
 
     js_code = """
