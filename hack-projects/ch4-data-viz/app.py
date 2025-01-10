@@ -29,7 +29,8 @@ df["created_year"] = df["Created - W 3 CDTF (DCTERMS)"].apply(
 values = st.slider(
     "Select a year range: ",
     df["created_year"].min(),
-    df["created_year"].max()(df["created_year"].min(), df["created_year"].max()),
+    df["created_year"].max(),
+    (df["created_year"].min(), df["created_year"].max()),
 )
 
 # print(df["created_year"])
