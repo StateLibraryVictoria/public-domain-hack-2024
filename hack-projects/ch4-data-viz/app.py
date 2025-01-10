@@ -45,14 +45,12 @@ col1, col2 = st.columns([0.3, 0.7])
 with col1:
 
     st.write(f"Random image selection")
-    # for img in random_selection["iiif_url"].values.tolist():
-    #     st.image(img, use_container_width=True)
     for img in random_selection.values.tolist():
         iiif_url = img[-1][0]
         title = img[2]
         palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
         pal_im = Image.fromarray(palette, "RGB")
-        st.image(img, use_container_width=True, caption=title)
+        st.image(iiif_url, use_container_width=True, caption=title)
         st.image(pal_im, use_container_width=True, caption="Colour palette")
 
 
@@ -69,7 +67,7 @@ with col2:
 
 # df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
-# random_selection = df.sample()
+# random_selection = df.sample(2)
 
 # random_selection["iiif_url"] = random_selection["IE PID"].apply(
 #     lambda x: image_analysis.get_iiif_image_urls(x)
@@ -78,7 +76,8 @@ with col2:
 # for img in random_selection.values.tolist():
 #     iiif_url = img[-1][0]
 #     title = img[2]
+#     print(title)
 #     palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
 #     pal_im = Image.fromarray(palette, "RGB")
-#     st.image(img, use_container_width=True, caption=title)
+#     st.image(iiif_url, use_container_width=True, caption=title)
 #     st.image(pal_im, use_container_width=True)
