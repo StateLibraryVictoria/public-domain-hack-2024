@@ -12,31 +12,37 @@ palette_columns = ["pal_1", "pal_3", "pal_5"]
 
 df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
+
+df["created_year"] = df["Created - W 3 CDTF (DCTERMS)"].apply(
+    lambda x: dataset_wrangler.split_created_year(x)[0]
+)
+
+
+with st.form("my_form"):
+    st.write
+    min_year = df["created_year"].min()
+    max_year = df["created_year"].max()
+    values = st.slider(
+        "Select a year range: ",
+        min_year,
+        max_year,
+        (min_year, max_year),
+    )
+    st.form_submit_button("Visualise my selection")
+
+st.write(f"Min: {min_year} Max: {max_year}")
+st.write(f"Min val: {values[0]} Max val: {values[1]}")
+
+df = df[df["created_year"].between(values[0], values[1])]
+
 random_selection = df.sample(n=3)
 
 random_selection["iiif_url"] = random_selection["IE PID"].apply(
     lambda x: image_analysis.get_iiif_image_urls(x)
 )
 
-# for img in random_selection["iiif_url"].values.tolist():
-#     st.image(img)
-
-
-df["created_year"] = df["Created - W 3 CDTF (DCTERMS)"].apply(
-    lambda x: dataset_wrangler.split_created_year(x)[0]
-)
-
-min_year = df["created_year"].min()
-max_year = df["created_year"].max()
-
-values = st.slider(
-    "Select a year range: ",
-    min_year,
-    max_year,
-    (min_year, max_year),
-)
-
-df = df[df["created_year"].between(min_year, max_year)]
+for img in random_selection["iiif_url"].values.tolist():
+    st.image(img)
 
 
 p = dataset_wrangler.create_grid(df)
