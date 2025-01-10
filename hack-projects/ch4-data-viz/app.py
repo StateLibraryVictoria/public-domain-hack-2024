@@ -31,10 +31,12 @@ max_year = df["created_year"].max()
 
 values = st.slider(
     "Select a year range: ",
-    df["created_year"].min(),
-    df["created_year"].max(),
-    (df["created_year"].min(), df["created_year"].max()),
+    min_year,
+    max_year,
+    (min_year, max_year),
 )
+
+df = df[df["created_year"].between(min_year, max_year)]
 
 
 p = dataset_wrangler.create_grid(df)
