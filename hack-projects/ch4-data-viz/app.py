@@ -18,7 +18,8 @@ random_selection["iiif_url"] = random_selection["IE PID"].apply(
     lambda x: image_analysis.get_iiif_image_urls(x)
 )
 
-st.image(random_selection["iiif_url"].sample())
+for img in random_selection["iiif_url"].values.tolist():
+    st.image(img)
 
 st.dataframe(random_selection)
 
