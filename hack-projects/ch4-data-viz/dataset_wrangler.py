@@ -68,7 +68,7 @@ def get_tooltips_dict(df, columns):
     return tooltips
 
 
-def create_grid(dataset, palette_columns=["pal_1", "pal_3", "pal_5"]):
+def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
 
     markers = {
         "pal_1": "circle",
@@ -77,8 +77,6 @@ def create_grid(dataset, palette_columns=["pal_1", "pal_3", "pal_5"]):
         "pal_4": "plus",
         "pal_5": "triangle",
     }
-
-    df = clean_df(dataset=dataset, subset=palette_columns)
 
     coords = get_square_coords(df)
 

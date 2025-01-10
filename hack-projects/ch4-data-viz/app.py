@@ -1,6 +1,3 @@
-from bokeh import events
-from bokeh.models import CustomJS
-
 import streamlit as st
 
 import dataset_wrangler
@@ -11,23 +8,14 @@ st.write(
     "Scrambled Images  from [https://www.slv.vic.gov.au/images](https://www.slv.vic.gov.au/images)"
 )
 
+palette_columns = ["pal_1", "pal_3", "pal_5"]
 
-p = dataset_wrangler.create_grid(dataset)
+df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
-callback = CustomJS(
-    code="""
-    console.log(Math.floor(cb_obj.x))
-    console.log(Math.floor(cb_obj.y))
+random_selection = df.sample(n=3)
 
-    try {
-        console.log("Hello mum")
-        st.write("Hello mum")
-    } catch {
-        console.log("error")
-    }
-"""
-)
+st.dataframe(random_selection)
 
-p.js_on_event(events.Tap, callback)
+p = dataset_wrangler.create_grid(df)
 
 st.bokeh_chart(p, use_container_width=True)
