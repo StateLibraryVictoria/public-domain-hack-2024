@@ -39,7 +39,8 @@ with st.form("my_form"):
         (min_year, max_year),
     )
 
-    selection = st.pills("Named entity filter", ner_categories.values())
+    selection = st.pills("Named entity filter", ner_categories.keys())
+    st.write(f"NER selection {selection}")
 
     st.form_submit_button("Visualise my selection")
 
@@ -47,7 +48,7 @@ with st.form("my_form"):
 df = df[df["created_year"].between(values[0], values[1])]
 
 if selection:
-    st.write(f"NER selection {selection}")
+
     df = df[df["ner"].str.contains(ner_categories[selection])]
 
 random_selection = df.sample(n=3)
