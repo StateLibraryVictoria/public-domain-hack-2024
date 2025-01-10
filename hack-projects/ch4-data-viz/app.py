@@ -4,11 +4,12 @@ import dataset_wrangler, image_analysis
 
 dataset = "https://raw.githubusercontent.com/StateLibraryVictoria/public-domain-hack-2024/refs/heads/ch4-data-viz/datasets/ch3_colour_data_viz_suggestions_set_2_augmented.csv"
 
+palette_columns = ["pal_1", "pal_3", "pal_5"]
+
 st.write(
     "Scrambled Images  from [https://www.slv.vic.gov.au/images](https://www.slv.vic.gov.au/images)"
 )
 
-palette_columns = ["pal_1", "pal_3", "pal_5"]
 
 df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
@@ -19,7 +20,7 @@ df["created_year"] = df["Created - W 3 CDTF (DCTERMS)"].apply(
 
 
 with st.form("my_form"):
-    st.write
+    # st.write("")
     min_year = df["created_year"].min()
     max_year = df["created_year"].max()
     values = st.slider(
@@ -42,8 +43,15 @@ col1, col2 = st.columns([0.3, 0.7])
 
 with col1:
     st.write(f"Random image selection")
-    for img in random_selection["iiif_url"].values.tolist():
-        st.image(img, use_container_width=True)
+    # for img in random_selection["iiif_url"].values.tolist():
+    #     st.image(img, use_container_width=True)
+    for img in random_selection.values.tolist():
+        iiif_url = img[-1][0]
+        title = img[2]
+        palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
+
+        st.image(img, use_container_width=True, caption=title)
+        st.image(palette[0], use_container_width=True)
 
 
 p = dataset_wrangler.create_grid(df)
@@ -51,3 +59,22 @@ p = dataset_wrangler.create_grid(df)
 with col2:
     st.write(f"Plotting images from {values[0]} to {values[1]}")
     st.bokeh_chart(p, use_container_width=True)
+
+
+# # !
+
+# df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
+
+# random_selection = df.sample()
+
+# random_selection["iiif_url"] = random_selection["IE PID"].apply(
+#     lambda x: image_analysis.get_iiif_image_urls(x)
+# )
+
+# for img in random_selection.values.tolist():
+#     iiif_url = img[-1][0]
+#     title = img[2]
+#     palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
+
+#     st.image(img, use_container_width=True, caption=title)
+#     st.image(palette[0], use_container_width=True)

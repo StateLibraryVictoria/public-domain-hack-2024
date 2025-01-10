@@ -69,13 +69,16 @@ def get_palette_clusters(img, no_of_clusters=5):
     return clusters
 
 
-def get_colour_palette_iiif_image(ie_pid: str, dim=(500, 300)):
+def get_colour_palette_iiif_image(ie_pid="", dim=(500, 300), iiif_url=None):
 
-    # get iiif image urls
-    image_urls = get_iiif_image_urls(ie_pid)
-    if not image_urls:
-        return False
-    response = requests.get(image_urls[0])
+    if not iiif_url:
+        # get iiif image urls
+        image_urls = get_iiif_image_urls(ie_pid)
+        iiif_url = image_urls[0]
+        if not image_urls:
+            return False
+
+    response = requests.get(iiif_url)
 
     # decode image
     img = cv.imdecode(np.frombuffer(response.content, np.uint8), -1)
