@@ -7,6 +7,14 @@ dataset = "https://raw.githubusercontent.com/StateLibraryVictoria/public-domain-
 
 palette_columns = ["pal_1", "pal_3", "pal_5"]
 
+ner_categories = {
+    "Organisation": "ORD",
+    "Country": "GPE",
+    "Person": "PERSON",
+    "Event name": "EVENT",
+    "Address": "FAC",
+}
+
 st.write(
     "Scrambled Images  from [https://www.slv.vic.gov.au/images](https://www.slv.vic.gov.au/images)"
 )
@@ -30,9 +38,17 @@ with st.form("my_form"):
         max_year,
         (min_year, max_year),
     )
+
+    selection = st.pills("Named entity filter", ner_categories.values())
+
     st.form_submit_button("Visualise my selection")
 
+
 df = df[df["created_year"].between(values[0], values[1])]
+
+if selection:
+    st.write(f"NER selection {selection}")
+    df = df[df["ner"].str.contains(ner_categories[selection])]
 
 random_selection = df.sample(n=3)
 
@@ -62,8 +78,7 @@ with col2:
 
 
 # # !
-
-# from PIL import Image
+# import re
 
 # df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
@@ -73,11 +88,13 @@ with col2:
 #     lambda x: image_analysis.get_iiif_image_urls(x)
 # )
 
-# for img in random_selection.values.tolist():
-#     iiif_url = img[-1][0]
-#     title = img[2]
-#     print(title)
-#     palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
-#     pal_im = Image.fromarray(palette, "RGB")
-#     st.image(iiif_url, use_container_width=True, caption=title)
-#     st.image(pal_im, use_container_width=True)
+
+# for ner in random_selection["ner"].values.tolist():
+#     print(ner)
+
+#     str_start = "→"
+#     str_end = " "
+
+#     res = re.findall(str_start + "(.*)" + str_end, ner)
+
+#     print(res)
