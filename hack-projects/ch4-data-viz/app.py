@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 
 import dataset_wrangler, image_analysis
 
@@ -42,6 +43,7 @@ random_selection["iiif_url"] = random_selection["IE PID"].apply(
 col1, col2 = st.columns([0.3, 0.7])
 
 with col1:
+
     st.write(f"Random image selection")
     # for img in random_selection["iiif_url"].values.tolist():
     #     st.image(img, use_container_width=True)
@@ -49,9 +51,9 @@ with col1:
         iiif_url = img[-1][0]
         title = img[2]
         palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
-
+        pal_im = Image.fromarray(palette, "RGB")
         st.image(img, use_container_width=True, caption=title)
-        st.image(palette[0], use_container_width=True)
+        st.image(pal_im, use_container_width=True, caption="Colour palette")
 
 
 p = dataset_wrangler.create_grid(df)
@@ -62,6 +64,8 @@ with col2:
 
 
 # # !
+
+# from PIL import Image
 
 # df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
 
@@ -75,6 +79,6 @@ with col2:
 #     iiif_url = img[-1][0]
 #     title = img[2]
 #     palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
-
+#     pal_im = Image.fromarray(palette, "RGB")
 #     st.image(img, use_container_width=True, caption=title)
-#     st.image(palette[0], use_container_width=True)
+#     st.image(pal_im, use_container_width=True)
