@@ -1,5 +1,6 @@
 import pandas as pd
 import math
+import re
 
 from bokeh.models import HoverTool
 from bokeh.plotting import figure
@@ -8,11 +9,12 @@ from bokeh.models import CustomJS
 
 def split_created_year(created_year):
 
-    split = created_year.split("/")
-    start_date = split[0]
+    matches = re.findall("([1-3][0-9]{3})", created_year)
 
-    if len(split) > 1:
-        end_date = split[-1]
+    start_date = int(matches[0])
+
+    if len(matches) > 1:
+        end_date = int(matches[-1])
     else:
         end_date = start_date
 
