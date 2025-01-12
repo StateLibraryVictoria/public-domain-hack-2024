@@ -51,31 +51,34 @@ if selection:
 
     df = df[df["ner"].str.contains(ner_categories[selection])]
 
-random_selection = df.sample(n=3)
+n = 3
+
+random_selection = df.sample(n=n)
 
 random_selection["iiif_url"] = random_selection["IE PID"].apply(
     lambda x: image_analysis.get_iiif_image_urls(x)
 )
 
-col1, col2 = st.columns([0.3, 0.7])
+p = dataset_wrangler.create_grid(df)
 
-with col1:
 
+with st.container():
+    st.write(f"Plotting images from {values[0]} to {values[1]}")
+    st.bokeh_chart(p, use_container_width=True)
+
+
+cols = st.columns(n)
+
+with st.container():
     st.write(f"Random image selection")
-    for img in random_selection.values.tolist():
+    for idx, img in enumerate(random_selection.values.tolist()):
         iiif_url = img[-1][0]
         title = img[2]
         palette = image_analysis.get_colour_palette_iiif_image(iiif_url=iiif_url)
         pal_im = Image.fromarray(palette, "RGB")
-        st.image(iiif_url, use_container_width=True, caption=title)
-        st.image(pal_im, use_container_width=True, caption="Colour palette")
-
-
-p = dataset_wrangler.create_grid(df)
-
-with col2:
-    st.write(f"Plotting images from {values[0]} to {values[1]}")
-    st.bokeh_chart(p, use_container_width=True)
+        with cols[idx]:
+            st.image(iiif_url, use_container_width=True, caption=title)
+            st.image(pal_im, use_container_width=True, caption="Colour palette")
 
 
 # # !
