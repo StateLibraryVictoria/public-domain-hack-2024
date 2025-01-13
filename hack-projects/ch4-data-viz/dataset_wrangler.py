@@ -117,11 +117,13 @@ def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
     )
 
     tt = """
-    <div>
-        <p>@title</p>
-        <p>@created</p>
-        <p><a href=@viewer_link{safe}}>@viewer_link{safe}</a></p>
-    </div>
+        <div
+            style="background-image:linear-gradient(red blue)";
+        >
+            <p>@titles</p>
+            <p>@created</p>
+            <p><a href=@viewer_link{safe}}>@viewer_link{safe}</a></p>
+        </div>
     """
 
     p = figure(sizing_mode="stretch_width", max_width=1000, tools=TOOLS)
