@@ -116,15 +116,22 @@ def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
         }
     )
 
+    tt = """
+    <div>
+        <a href=@viewer_link{safe}}>@viewer_link{safe}</a>
+    </div>
+    """
+
     p = figure(sizing_mode="stretch_width", max_width=1000, tools=TOOLS)
     p.grid.grid_line_color = None
     p.axis.visible = False
     hover = HoverTool(
-        tooltips=[
-            ("Title", "@titles"),
-            ("Date created", "@created"),
-            ("SLV Viewer", "@viewer_link"),
-        ]
+        # tooltips=[
+        #     ("Title", "@titles"),
+        #     ("Date created", "@created"),
+        #     ("SLV Viewer", "@viewer_link"),
+        # ]
+        tt
     )
     p.add_tools(hover)
 

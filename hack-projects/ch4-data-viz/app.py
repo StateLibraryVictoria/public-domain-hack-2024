@@ -79,26 +79,3 @@ with st.container():
         with cols[idx]:
             st.image(iiif_url, use_container_width=True, caption=title)
             st.image(pal_im, use_container_width=True, caption="Colour palette")
-
-
-# # !
-# import re
-
-# df = dataset_wrangler.clean_df(dataset=dataset, subset=palette_columns)
-
-# random_selection = df.sample(2)
-
-# random_selection["iiif_url"] = random_selection["IE PID"].apply(
-#     lambda x: image_analysis.get_iiif_image_urls(x)
-# )
-
-
-# for ner in random_selection["ner"].values.tolist():
-#     print(ner)
-
-#     str_start = "→"
-#     str_end = " "
-
-#     res = re.findall(str_start + "(.*)" + str_end, ner)
-
-#     print(res)
