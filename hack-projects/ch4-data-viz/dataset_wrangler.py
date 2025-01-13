@@ -98,7 +98,9 @@ def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
     # bodge the df to ensure the length matches the coords
     df = df.head(len(coords))
 
-    df["viewer_link"] = f"https://viewer.slv.vic.gov.au/?entity={df["IE PID"]}&mode=browse"
+    df["viewer_link"] = (
+        f"https://viewer.slv.vic.gov.au/?entity={df['IE PID']}&mode=browse"
+    )
 
     TOOLS = "crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom,undo,redo,reset"
 
@@ -108,14 +110,20 @@ def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
             "y": [coord[1] for coord in coords],
             "titles": df["Title (DC)"].values.tolist(),
             "created": df["Created - W 3 CDTF (DCTERMS)"].values.tolist(),
-            "viewer_link" : df["viewer_link"].values.tolist()
+            "viewer_link": df["viewer_link"].values.tolist(),
         }
     )
 
     p = figure(sizing_mode="stretch_width", max_width=1000, tools=TOOLS)
     p.grid.grid_line_color = None
     p.axis.visible = False
-    hover = HoverTool(tooltips=[("Title", "@titles"), ("Date created", "@created"), ("SLV Viewer", "@viewer_link")])
+    hover = HoverTool(
+        tooltips=[
+            ("Title", "@titles"),
+            ("Date created", "@created"),
+            ("SLV Viewer", "@viewer_link"),
+        ]
+    )
     p.add_tools(hover)
 
     radius = 12
