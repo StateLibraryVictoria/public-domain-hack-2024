@@ -99,7 +99,9 @@ def create_grid(df, palette_columns=["pal_1", "pal_3", "pal_5"]):
     df = df.head(len(coords))
 
     df["viewer_link"] = (
-        f"https://viewer.slv.vic.gov.au/?entity={df['IE PID']}&mode=browse"
+        "https://viewer.slv.vic.gov.au/?entity="
+        + df["IE PID"].astype(str)
+        + "&mode=browse"
     )
 
     TOOLS = "crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom,undo,redo,reset"
